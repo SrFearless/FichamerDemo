@@ -131,3 +131,108 @@
 .btn-medieval:hover {
   background: linear-gradient(to right, #b45309, #d97706);
 }
+
+.passwordGate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at center, rgba(40, 20, 5, 0.9) 0%, rgba(20, 10, 2, 0.95) 100%),
+    url('/images/Abertura.gif');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: 'MedievalSharp', cursive;
+  padding: 15px;
+}
+
+.passwordContainer {
+  background: #f5e8c8; /* Cor sólida em vez de SVG */
+  padding: 25px;
+  border-radius: 15px;
+  border: 3px solid #d4af37;
+  text-align: center;
+  color: #5d4037;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+  max-width: 350px;
+  width: 100%;
+}
+
+.passwordContainer h2 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #8b4513;
+}
+
+.passwordInput {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  background: #f9f0d9;
+  color: #5d4037;
+}
+
+.passwordInput:focus {
+  outline: none;
+  border-color: #b8941f;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+.passwordButton {
+  background: linear-gradient(45deg, #8b4513 0%, #a0522d 100%);
+  color: #f5e8c8;
+  border: 2px solid #d4af37;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.passwordButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(45deg, #9c5d27 0%, #b56a3a 100%);
+}
+
+.errorMessage {
+  color: #d32f2f;
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+
+.passwordContainer {
+  padding: 20px;
+  max-width: 320px;
+}
+
+.passwordContainer h2 {
+  font-size: 1.2rem;
+}
+
+.passwordInput {
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.passwordButton {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+}
+}

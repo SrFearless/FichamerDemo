@@ -1,7 +1,10 @@
 import type { Config } from "tailwindcss"
 
+
+
 const config = {
   darkMode: ["class"],
+  
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -19,6 +22,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        pixel: ['"Press Start 2P"', 'monospace'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

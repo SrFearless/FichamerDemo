@@ -1,10 +1,17 @@
 "use client"
 
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { PasswordGate } from '../components/PasswordGate/PasswordGate';
 
 export default function Home() {
+  const [isUnlocked, setIsUnlocked] = useState(false);
+
+  if (!isUnlocked) {
+    return <PasswordGate onUnlock={() => setIsUnlocked(true)} />;
+  }
   return (
     <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1605106702734-205df224ecce?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center flex items-center justify-center p-4 relative overflow-hidden">
       {/* Efeitos visuais */}
