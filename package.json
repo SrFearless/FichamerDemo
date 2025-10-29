@@ -5,6 +5,7 @@
     "start": "next start -p 3002",
     "dev": "next dev -p 3002",
     "build": "next build"
+    
   },
   "dependencies": {
     "@hookform/resolvers": "latest",
@@ -41,7 +42,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
-    "date-fns": "4.1.0",
+    "date-fns": "^3.0.0",
     "embla-carousel-react": "8.5.1",
     "framer-motion": "^12.9.2",
     "input-otp": "1.4.1",
@@ -52,7 +53,7 @@
     "next": "^15.2.4",
     "next-themes": "latest",
     "nookies": "^2.5.2",
-    "react": "^19.1.0",
+    "react": "^18.0.0",
     "react-day-picker": "^9.11.1",
     "react-dom": "^19.1.0",
     "react-dropzone": "latest",
@@ -76,5 +77,11 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
-  }
+  },  
+  "pnpm": {
+    "overrides": {
+      "react": "^18.0.0",
+      "date-fns": "^3.0.0"
+    }
+  }  
 }
