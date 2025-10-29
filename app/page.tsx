@@ -119,14 +119,14 @@ export default function Home() {
             {/* Botões de ação */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/escolha">
+                <Link href="/aventureirotaverna">
                   <Button className="w-full bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 text-amber-100 py-6 text-lg font-bold tracking-wider border-2 border-amber-800 shadow-lg">
                     Iniciar Jornada
                   </Button>
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/escolha">
+                <Link href="/mestretaverna">
                   <Button className="w-full bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-purple-100 py-6 text-lg font-bold tracking-wider border-2 border-purple-800 shadow-lg">
                     Governar o Reino
                   </Button>
