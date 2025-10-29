@@ -1,0 +1,149 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { MedievalNavBarAv } from "@/components/medieval-navbar-aventureiro";
+
+type Character = {
+  id: number;
+  name: string;
+  gifUrl: string;
+  selected: boolean;
+};
+
+export default function CharacterSelectionPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  // Dados mockados de personagens - substituir por chamada API real
+  const [characters, setCharacters] = useState<Character[]>([
+    { id: 1, name: "Ryalar Fearless", gifUrl: "/espadas/madeira.gif", selected: true },
+  ]);
+
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+
+  useEffect(() => {
+
+    
+    // Simulando carregamento de dados
+    setTimeout(() => {
+      setSelectedCharacter(characters.find(c => c.selected) || null);
+      setLoading(false);
+    }, 1000);
+  }, [router]);
+
+  const handleCharacterSelect = (characterId: number) => {
+    setCharacters(prev => prev.map(c => ({
+      ...c,
+      selected: c.id === characterId
+    })));
+    const selected = characters.find(c => c.id === characterId);
+    setSelectedCharacter(selected || null);
+    
+    // Aqui você chamaria sua API para trocar os GIFs
+    console.log("Personagem selecionado:", selected?.name);
+  };
+
+  return (
+    <>
+      <MedievalNavBarAv />
+    <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center p-4">
+      {/* Efeito de névoa */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+      
+      {/* Container principal */}
+      <div className="relative z-10 max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
+        {/* Coluna esquerda - Visualização do personagem */}
+        <div className="w-full lg:w-1/2 bg-stone-800/80 border-2 border-amber-600 rounded-xl p-6 shadow-lg">
+          <h1 className="text-3xl font-bold text-amber-400 mb-6 text-center font-serif">
+            Salão dos Heróis
+          </h1>
+          
+          {/* Personagem selecionado (topo) */}
+          <div className="mb-8 flex flex-col items-center">
+            <div className="w-64 h-64 rounded-lg border-4 border-amber-500 overflow-hidden mb-4">
+              {selectedCharacter ? (
+                <img 
+                  src={selectedCharacter.gifUrl} 
+                  alt={selectedCharacter.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-stone-700 flex items-center justify-center">
+                  <span className="text-stone-400">Selecione um personagem</span>
+                </div>
+              )}
+            </div>
+            <h2 className="text-2xl font-bold text-amber-300">
+              {selectedCharacter?.name || "Nenhum selecionado"}
+            </h2>
+          </div>
+          
+          {/* Altar (embaixo) */}
+          <div className="bg-stone-900/70 border border-amber-700 rounded-lg p-4 text-center">
+            <div className="w-full h-48 rounded-md bg-[url('/espadas/madeira.gif')] bg-contain bg-center bg-no-repeat flex items-end justify-center">
+              <div className="bg-stone-900/80 p-3 rounded-t-lg border-t border-x border-amber-600">
+                <h3 className="text-lg font-bold text-amber-300">Altar dos Campeões</h3>
+                <p className="text-sm text-stone-300">Local de seleção e homenagem</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Coluna direita - Lista de personagens */}
+        <div className="w-full lg:w-1/2 bg-stone-800/80 border-2 border-amber-600 rounded-xl p-6 shadow-lg">
+          <h2 className="text-2xl font-bold text-amber-400 mb-6 text-center font-serif">
+            Escolha Seu Campeão
+          </h2>
+          
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {characters.map((character) => (
+                <div 
+                  key={character.id}
+                  onClick={() => handleCharacterSelect(character.id)}
+                  className={`cursor-pointer p-3 rounded-lg border-2 transition-all ${character.selected ? 'border-amber-400 bg-amber-900/30' : 'border-stone-600 hover:border-amber-300'}`}
+                >
+                  <div className="w-full h-32 rounded-md overflow-hidden mb-2">
+                    <img 
+                      src={character.gifUrl} 
+                      alt={character.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h3 className="text-center font-medium text-stone-200">
+                    {character.name}
+                  </h3>
+                  {character.selected && (
+                    <div className="text-center text-xs text-amber-400 mt-1">
+                      Selecionado
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Botão de ação */}
+          <div className="mt-8 flex justify-center">
+            <Button 
+              asChild
+              className="bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 py-6 text-lg font-bold"
+            >
+              <Link href={`/mestrefichapessoal`}>
+                Confirmar Seleção
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </>
+  );
+}
