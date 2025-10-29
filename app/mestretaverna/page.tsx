@@ -136,7 +136,7 @@ export default function CharacterSelectionPage() {
               asChild
               className="bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-600 hover:to-amber-500 py-6 text-lg font-bold"
             >
-              <Link href={`/mestrefichapessoal`}>
+              <Link href={`/mestreficha`}>
                 Confirmar Seleção
               </Link>
             </Button>

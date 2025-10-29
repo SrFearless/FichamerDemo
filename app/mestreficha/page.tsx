@@ -352,6 +352,7 @@ export default function DashboardPage() {
       },
     ],
     bag: [
+      { nome: "Desconhecido", quantidade: 0, gif: "/espadas/madeira.gif" },
       { nome: "Desconhecido", quantidade: 0, gif: "/espadas/madeira.gif" }
     ],
     caracteristicas: {
@@ -874,7 +875,7 @@ export default function DashboardPage() {
                       <User className="w-5 h-5" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-4xl bg-stone-800 border-purple-700 text-stone-200">
+                  <DialogContent className="max-w-4xl bg-stone-800 border-purple-700 text-stone-200 max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                       <DialogTitle className="text-2xl text-purple-400 text-center">
                         📖 Características de {character.nome}
@@ -1082,13 +1083,33 @@ export default function DashboardPage() {
 
           {/* Coluna direita - Abas de informações */}
           <div className="w-full lg:w-2/3">
-            <Tabs defaultValue="atributos" className="bg-stone-800/50 rounded-xl p-4 border border-amber-600/30">
-              <TabsList className="grid w-full grid-cols-4 bg-stone-900">
-                <TabsTrigger value="atributos" className="font-serif">Atributos</TabsTrigger>
-                <TabsTrigger value="pericias" className="font-serif">Perícias</TabsTrigger>
-                <TabsTrigger value="equipamentos" className="font-serif">Equipamentos</TabsTrigger>
-                <TabsTrigger value="magias" className="font-serif">Magias</TabsTrigger>
-              </TabsList>
+          <Tabs defaultValue="atributos" className="bg-stone-800/50 rounded-xl p-4 border border-amber-600/30">
+            <TabsList className="flex w-full bg-stone-900 overflow-x-auto scrollbar-hide">
+              <TabsTrigger 
+                value="atributos" 
+                className="font-serif flex-1 min-w-0 text-xs sm:text-sm px-2 sm:px-4"
+              >
+                Atributos
+              </TabsTrigger>
+              <TabsTrigger 
+                value="pericias" 
+                className="font-serif flex-1 min-w-0 text-xs sm:text-sm px-2 sm:px-4"
+              >
+                Perícias
+              </TabsTrigger>
+              <TabsTrigger 
+                value="equipamentos" 
+                className="font-serif flex-1 min-w-0 text-xs sm:text-sm px-2 sm:px-4"
+              >
+                Equipamentos
+              </TabsTrigger>
+              <TabsTrigger 
+                value="magias" 
+                className="font-serif flex-1 min-w-0 text-xs sm:text-sm px-2 sm:px-4"
+              >
+                Magias
+              </TabsTrigger>
+            </TabsList>
               
               {/* Conteúdo das abas */}
               <TabsContent value="atributos" className="mt-6">
@@ -1297,48 +1318,50 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 {/* Dinheiro com controles */}
-                <div className="grid grid-cols-4 gap-2 mb-6">
-                  {Object.entries(character.dinheiro).map(([tipo, valor]) => (
-                    <div key={tipo} className="bg-stone-900/50 p-3 rounded-lg border border-amber-600/30">
-                      <p className="text-xs text-stone-400 mb-2 capitalize">{tipo}</p>
-                      <p className="font-medium text-lg mb-2 text-center">
-                        {tipo === 'cobre' && <span className="text-orange-300">{valor} PC</span>}
-                        {tipo === 'prata' && <span className="text-gray-100">{valor} PP</span>}
-                        {tipo === 'ouro' && <span className="text-amber-400">{valor} PO</span>}
-                        {tipo === 'platina' && <span className="text-blue-300">{valor} PL</span>}
-                      </p>
-                      <div className="flex gap-1 justify-center">
-                        <Button
-                          onClick={() => modificarDinheiro(tipo as keyof CharacterData['dinheiro'], 10)}
-                          size="sm"
-                          variant="outline"
-                          className="h-6 px-2 text-xs bg-green-700 hover:bg-green-600 border-green-600"
-                          title={`Adicionar 10 ${tipo}`}
-                        >
-                          +10
-                        </Button>
-                        <Button
-                          onClick={() => modificarDinheiro(tipo as keyof CharacterData['dinheiro'], 100)}
-                          size="sm"
-                          variant="outline"
-                          className="h-6 px-2 text-xs bg-green-800 hover:bg-green-700 border-green-700"
-                          title={`Adicionar 100 ${tipo}`}
-                        >
-                          +100
-                        </Button>
-                        <Button
-                          onClick={() => modificarDinheiro(tipo as keyof CharacterData['dinheiro'], -10)}
-                          size="sm"
-                          variant="outline"
-                          className="h-6 px-2 text-xs bg-red-700 hover:bg-red-600 border-red-600"
-                          title={`Remover 10 ${tipo}`}
-                        >
-                          -10
-                        </Button>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-6">
+                    {Object.entries(character.dinheiro).map(([tipo, valor]) => (
+                      <div key={tipo} className="bg-stone-900/50 p-3 rounded-lg border border-amber-600/30">
+                        <p className="text-xs text-stone-400 mb-2 capitalize">{tipo}</p>
+                        <p className="font-medium text-lg mb-3 text-center">
+                          {tipo === 'cobre' && <span className="text-orange-300">{valor} PC</span>}
+                          {tipo === 'prata' && <span className="text-gray-100">{valor} PP</span>}
+                          {tipo === 'ouro' && <span className="text-amber-400">{valor} PO</span>}
+                          {tipo === 'platina' && <span className="text-blue-300">{valor} PL</span>}
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-1 justify-center">
+                          <div className="flex gap-1 justify-center">
+                            <Button
+                              onClick={() => modificarDinheiro(tipo as keyof CharacterData['dinheiro'], 10)}
+                              size="sm"
+                              variant="outline"
+                              className="h-7 px-2 text-xs bg-green-700 hover:bg-green-600 border-green-600 flex-1"
+                              title={`Adicionar 10 ${tipo}`}
+                            >
+                              +10
+                            </Button>
+                            <Button
+                              onClick={() => modificarDinheiro(tipo as keyof CharacterData['dinheiro'], 100)}
+                              size="sm"
+                              variant="outline"
+                              className="h-7 px-2 text-xs bg-green-800 hover:bg-green-700 border-green-700 flex-1"
+                              title={`Adicionar 100 ${tipo}`}
+                            >
+                              +100
+                            </Button>
+                          </div>
+                          <Button
+                            onClick={() => modificarDinheiro(tipo as keyof CharacterData['dinheiro'], -100)}
+                            size="sm"
+                            variant="outline"
+                            className="h-7 px-2 text-xs bg-red-700 hover:bg-red-600 border-red-600"
+                            title={`Remover 100 ${tipo}`}
+                          >
+                            -100
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
                 
                 {/* Itens com controles de quantidade */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1384,7 +1407,7 @@ export default function DashboardPage() {
             {/* Anotações com abas */}
             <Card className="mt-6 bg-stone-800/50 border-amber-600/30">
               <CardContent>
-                <CardTitle className="text-amber-400">Anotações</CardTitle>
+                <CardTitle className="mt-6 text-amber-400">Anotações</CardTitle>
                 <CardDescription>Registre informações importantes sobre sua campanha</CardDescription>
                 {/* Abas para organizar as anotações */}
                 <Tabs value={abaAnotacoes} onValueChange={setAbaAnotacoes} className="mt-4">
