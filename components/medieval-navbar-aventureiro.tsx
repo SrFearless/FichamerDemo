@@ -47,7 +47,7 @@ export function MedievalNavBarAv() {
 
   // Rotas sem ID - ajuste conforme necessário
   const routes = [
-    { href: `/`, label: "Escolha", icon: <HandHelping className="h-5 w-5" /> },
+    { href: `/escolha`, label: "Escolha", icon: <HandHelping className="h-5 w-5" /> },
     { href: `/aventureirotaverna`, label: "Taverna", icon: <Home className="h-5 w-5" /> },
     { href: `/aventureiroficha`, label: "Ficha", icon: <ScrollText className="h-5 w-5" /> },
     { href: `/aventureiromascote`, label: "Mascotes", icon: <Dog className="h-5 w-5" /> },

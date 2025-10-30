@@ -77,6 +77,8 @@ type CharacterData = {
     componentes: string;
     duracao: string;
     descricao: string;
+    cd?: number; // Classe de Dificuldade
+    bonusAtaque?: number; // Bônus de Ataque
   }[];
   bag: Array<{ nome: string; quantidade: number; gif?: string }>;
   caracteristicas: {
@@ -88,6 +90,9 @@ type CharacterData = {
     altura: string;
     peso: string;
   };
+    // Adicione estes campos para CD e Bônus de Ataque gerais
+    cdMagia: number;
+    bonusAtaqueMagia: number;
 };
 
 // Sistema de dados aprimorado
@@ -145,7 +150,7 @@ const attacks: AttackData[] = [
     cost: "1 Ação",
     tipo: "Distância (Eletrecidade, Fogo, Ácido, Lava e Psquico)",
     dados: "7d4+6d6+2d10+1d8+15",
-    danoAdicional: "Acertar o Ataque  (1D20 + 7) / Vantagem com inimigos que não Jogaram ) - +4 de dano em (Inimigo Favorito)"
+    danoAdicional: "Acertar o Ataque  (1D20 + 7) / Vantagem com inimigos que não Jogaram ) - 4 de dano em (Inimigo Favorito)"
   }
 ];
 
@@ -259,6 +264,8 @@ export default function DashboardPage() {
     exp: 115710,
     expMax: 120000,
     inspiracao: false,
+    cdMagia: 13,
+    bonusAtaqueMagia: 5,
     slotsMagia: {
       nivel1: { total: 4, usados: 0 },
       nivel2: { total: 3, usados: 0 },
@@ -600,6 +607,14 @@ export default function DashboardPage() {
     }
   };
 
+  const calcularCDMagia = (character: CharacterData): number => {
+    return 8 + character.proficiencia + calcularModificador(character.atributos.sabedoria); // Ou outro atributo dependendo da classe
+  };
+
+  const calcularBonusAtaqueMagia = (character: CharacterData): number => {
+    return character.proficiencia + calcularModificador(character.atributos.sabedoria); // Ou outro atributo dependendo da classe
+  };
+
   // Função para gerenciar slots de magia
   const toggleSlotMagia = (nivel: keyof CharacterData['slotsMagia'], index: number) => {
     if (character) {
@@ -753,6 +768,19 @@ export default function DashboardPage() {
   const canUseAttack = (attack: AttackData) => {
     return energy >= getEnergyCost(attack);
   };
+
+  useEffect(() => {
+    setIsClient(true);
+    setTimeout(() => {
+      const charComCalculos = {
+        ...mockCharacter,
+        cdMagia: calcularCDMagia(mockCharacter),
+        bonusAtaqueMagia: calcularBonusAtaqueMagia(mockCharacter)
+      };
+      setCharacter(charComCalculos);
+      setLoading(false);
+    }, 1);
+  }, []);
 
   // Função para renderizar resultados de dados complexos
   const renderDiceResultsComplexos = (resultados: Array<{ tipo: string; valores: number[]; total: number }>) => {
@@ -1393,73 +1421,132 @@ export default function DashboardPage() {
               
               <TabsContent value="magias" className="mt-6">
                 {/* Slots de Magia Interativos */}
-                <div className="grid grid-cols-4 gap-2 mb-6">
-                  {Object.entries(character.slotsMagia).map(([nivel, slot]) => (
-                    <div key={nivel} className="bg-stone-800/70 border border-purple-600/30 rounded-lg p-2 text-center">
-                      <div className="text-xs text-purple-300 mb-1">
-                        {nivel.replace('nivel', '')}º Nível
-                      </div>
-                      <div className="flex justify-center items-center gap-1 mb-1">
-                        {Array.from({ length: slot.total }).map((_, i) => (
-                          <div 
-                            key={i} 
-                            className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-200 ${
-                              i < slot.usados 
-                                ? 'bg-purple-500 border-purple-500 hover:bg-purple-400' 
-                                : 'border-purple-400 hover:bg-purple-900/50'
-                            }`}
-                            onClick={() => toggleSlotMagia(nivel as keyof CharacterData['slotsMagia'], i)}
-                            title={`Clique para ${i < slot.usados ? 'marcar como não usado' : 'marcar como usado'}`}
-                          />
-                        ))}
-                      </div>
-                      <div className="text-xs mt-1 text-stone-400">
-                        {slot.usados}/{slot.total} usados
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Lista de Magias */}
-                <div className="space-y-4">
-                  {character.magias.map((magia, index) => (
-                    <Card key={index} className="bg-stone-800 border-purple-600/30">
-                      <CardHeader>
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <CardTitle className="text-xl text-purple-300">{magia.nome}</CardTitle>
-                            <CardDescription>
-                              {magia.nivel}º nível • {magia.escola}
-                            </CardDescription>
-                          </div>
-                          <span className="bg-purple-900/50 text-purple-300 px-2 py-1 rounded text-sm">
-                            Nível {magia.nivel}
-                          </span>
-                        </div>
+                  {/* Adicione esta seção de CD e Bônus de Ataque */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <Card className="bg-stone-800 border-purple-600/30">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg text-purple-300 flex items-center gap-2">
+                          <Zap className="w-5 h-5" />
+                          Classe de Dificuldade (CD)
+                        </CardTitle>
                       </CardHeader>
-                      <CardContent className="grid gap-2 text-sm">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <p className="font-medium text-amber-300">Tempo de Conjuração</p>
-                            <p className="text-stone-300">{magia.tempoConjuracao}</p>
-                          </div>
-                          <div>
-                            <p className="font-medium text-amber-300">Alcance</p>
-                            <p className="text-stone-300">{magia.alcance}</p>
-                          </div>
-                          <div>
-                            <p className="font-medium text-amber-300">Componentes</p>
-                            <p className="text-stone-300">{magia.componentes}</p>
-                          </div>
-                          <div>
-                            <p className="font-medium text-amber-300">Duração</p>
-                            <p className="text-stone-300">{magia.duracao}</p>
-                          </div>
+                      <CardContent>
+                        <div className="text-3xl font-bold text-center text-amber-400">
+                          {character.cdMagia}
                         </div>
-                        <div className="mt-2">
-                          <p className="font-medium text-purple-300">Descrição</p>
-                          <p className="text-stone-300">{magia.descricao}</p>
+                        <div className="text-xs text-stone-400 text-center mt-2">
+                          CD para resistir às suas magias
                         </div>
+                        <div className="flex justify-center items-center gap-2 mt-2 text-xs text-stone-500">
+                          <span>8 + Prof. + Mod. Atributo</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-stone-800 border-purple-600/30">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg text-purple-300 flex items-center gap-2">
+                          <Zap className="w-5 h-5" />
+                          Bônus de Ataque Mágico
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold text-center text-amber-400">
+                          +{character.bonusAtaqueMagia}
+                        </div>
+                        <div className="text-xs text-stone-400 text-center mt-2">
+                          Bônus para ataques com magia
+                        </div>
+                        <div className="flex justify-center items-center gap-2 mt-2 text-xs text-stone-500">
+                          <span>Prof. + Mod. Atributo</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Slots de Magia Interativos (já existente) */}
+                  <div className="grid grid-cols-4 gap-2 mb-6">
+                    {Object.entries(character.slotsMagia).map(([nivel, slot]) => (
+                      <div key={nivel} className="bg-stone-800/70 border border-purple-600/30 rounded-lg p-2 text-center">
+                        <div className="text-xs text-purple-300 mb-1">
+                          {nivel.replace('nivel', '')}º Nível
+                        </div>
+                        <div className="flex justify-center items-center gap-1 mb-1">
+                          {Array.from({ length: slot.total }).map((_, i) => (
+                            <div 
+                              key={i} 
+                              className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-200 ${
+                                i < slot.usados 
+                                  ? 'bg-purple-500 border-purple-500 hover:bg-purple-400' 
+                                  : 'border-purple-400 hover:bg-purple-900/50'
+                              }`}
+                              onClick={() => toggleSlotMagia(nivel as keyof CharacterData['slotsMagia'], i)}
+                              title={`Clique para ${i < slot.usados ? 'marcar como não usado' : 'marcar como usado'}`}
+                            />
+                          ))}
+                        </div>
+                        <div className="text-xs mt-1 text-stone-400">
+                          {slot.usados}/{slot.total} usados
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Lista de Magias - Atualizada para mostrar CD e Bônus individuais */}
+                  <div className="space-y-4">
+                    {character.magias.map((magia, index) => (
+                      <Card key={index} className="bg-stone-800 border-purple-600/30">
+                        <CardHeader>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <CardTitle className="text-xl text-purple-300">{magia.nome}</CardTitle>
+                              <CardDescription>
+                                {magia.nivel}º nível • {magia.escola}
+                              </CardDescription>
+                            </div>
+                            <div className="flex flex-col items-end gap-2">
+                              <span className="bg-purple-900/50 text-purple-300 px-2 py-1 rounded text-sm">
+                                Nível {magia.nivel}
+                              </span>
+                              {/* CD e Bônus individuais para a magia */}
+                              <div className="flex gap-2 text-xs">
+                                {magia.cd && (
+                                  <span className="bg-amber-900/50 text-amber-300 px-2 py-1 rounded">
+                                    CD: {magia.cd}
+                                  </span>
+                                )}
+                                {magia.bonusAtaque && (
+                                  <span className="bg-blue-900/50 text-blue-300 px-2 py-1 rounded">
+                                    +{magia.bonusAtaque}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="grid gap-2 text-sm">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <p className="font-medium text-amber-300">Tempo de Conjuração</p>
+                              <p className="text-stone-300">{magia.tempoConjuracao}</p>
+                            </div>
+                            <div>
+                              <p className="font-medium text-amber-300">Alcance</p>
+                              <p className="text-stone-300">{magia.alcance}</p>
+                            </div>
+                            <div>
+                              <p className="font-medium text-amber-300">Componentes</p>
+                              <p className="text-stone-300">{magia.componentes}</p>
+                            </div>
+                            <div>
+                              <p className="font-medium text-amber-300">Duração</p>
+                              <p className="text-stone-300">{magia.duracao}</p>
+                            </div>
+                          </div>
+                          <div className="mt-2">
+                            <p className="font-medium text-purple-300">Descrição</p>
+                            <p className="text-stone-300">{magia.descricao}</p>
+                          </div>
                       </CardContent>
                     </Card>
                   ))}
