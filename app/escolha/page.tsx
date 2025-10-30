@@ -3,8 +3,15 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
 export default function CharacterSelection() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   return (
     <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Efeito de névoa e escuridão */}
@@ -38,7 +45,7 @@ export default function CharacterSelection() {
           <Link href={`/aventureirotaverna`}>
             <Button className="relative w-full h-64 md:h-80 bg-gradient-to-br from-blue-900/90 to-blue-700/90 border-4 border-blue-400 rounded-xl shadow-2xl overflow-hidden group transition-all duration-500 hover:border-blue-300 hover:shadow-blue-500/50">
               {/* Efeito de brilho */}
-              <div className="absolute inset-0 bg-[url('')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-blue-600/10 opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
               
               {/* Conteúdo do botão */}
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
@@ -70,7 +77,7 @@ export default function CharacterSelection() {
           <Link href={`/mestretaverna`}>
             <Button className="relative w-full h-64 md:h-80 bg-gradient-to-br from-purple-900/90 to-purple-700/90 border-4 border-purple-400 rounded-xl shadow-2xl overflow-hidden group transition-all duration-500 hover:border-purple-300 hover:shadow-purple-500/50">
               {/* Efeito de brilho */}
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518562180175-34a163b1a9a9?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-purple-600/10 opacity-30 group-hover:opacity-40 transition-opacity duration-500"></div>
               
               {/* Conteúdo do botão */}
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6">
@@ -104,33 +111,35 @@ export default function CharacterSelection() {
         "Grandes histórias começam com uma escolha"
       </motion.div>
       
-      {/* Partículas decorativas */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-amber-400/30"
-            initial={{
-              x: Math.random() * 100,
-              y: Math.random() * 100,
-              width: Math.random() * 10 + 2,
-              height: Math.random() * 10 + 2,
-              opacity: 0
-            }}
-            animate={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              opacity: [0, 0.3, 0],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-              delay: Math.random() * 5
-            }}
-          />
-        ))}
-      </div>
+      {/* Partículas decorativas - Só renderiza no client */}
+      {isClient && (
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full bg-amber-400/30"
+              initial={{
+                x: Math.random() * 100,
+                y: Math.random() * 100,
+                width: Math.random() * 10 + 2,
+                height: Math.random() * 10 + 2,
+                opacity: 0
+              }}
+              animate={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                opacity: [0, 0.3, 0],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: Math.random() * 5
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

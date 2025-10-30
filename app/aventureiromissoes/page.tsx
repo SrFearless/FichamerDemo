@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sword, ScrollText, Clock, Coins, PlusCircle } from "lucide-react";
+import { Sword, ScrollText, Clock, Coins, PlusCircle, Map, X, ZoomIn } from "lucide-react";
 import { toast } from "sonner";
 import {
   Card, CardHeader, CardTitle, CardDescription, CardContent,
@@ -27,11 +27,23 @@ type Missao = {
   personagem: string;
 };
 
+type Mapa = {
+  id: number;
+  nome: string;
+  descricao: string;
+  miniatura: string;
+  imagemCompleta: string;
+  tags: string[];
+};
+
 export default function MissoesPage() {
   const [missoes, setMissoes] = useState<Missao[]>([]);
+  const [mapas, setMapas] = useState<Mapa[]>([]);
   const [loading, setLoading] = useState(false);
   const [missaoSelecionada, setMissaoSelecionada] = useState<Missao | null>(null);
+  const [mapaSelecionado, setMapaSelecionado] = useState<Mapa | null>(null);
   const [mostrarDetalhesModal, setMostrarDetalhesModal] = useState(false);
+  const [mostrarMapaModal, setMostrarMapaModal] = useState(false);
   const [novaMissao, setNovaMissao] = useState({
     titulo: "",
     descricao: "",
@@ -40,6 +52,7 @@ export default function MissoesPage() {
     personagem: "",
   });
   const [personagens, setPersonagens] = useState<string[]>([]);
+  const [abaAtiva, setAbaAtiva] = useState<"missoes" | "mapas">("missoes");
 
   // Simulação de dados iniciais
   useEffect(() => {
@@ -77,7 +90,27 @@ export default function MissoesPage() {
         }
       ];
 
+      const mapasSimulados: Mapa[] = [
+        {
+          id: 1,
+          nome: "Continente - Heissundkalt",
+          descricao: "Mapa completo do continente mostrando todas as cidades e reinos",
+          miniatura: "/2.jpg",
+          imagemCompleta: "/2.jpg",
+          tags: ["Continente", "Cidades", "Reinos"]
+        },
+        {
+          id: 2,
+          nome: "Continente - Freljord",
+          descricao: "Mapa completo do continente mostrando todas as cidades e reinos",
+          miniatura: "/1.jpg",
+          imagemCompleta: "/1.jpg",
+          tags: ["Castelo", "Fortaleza", "Stygga"]
+        }
+      ];
+
       setMissoes(missoesSimuladas);
+      setMapas(mapasSimulados);
       setPersonagens(["Ryalar Fearless"]);
       setLoading(false);
     }, 1000);
@@ -129,6 +162,12 @@ export default function MissoesPage() {
   const handleRecusarMissao = () => {
     setMissaoSelecionada(null);
     toast.info("Missão recusada");
+  };
+
+  // Função para abrir mapa em tela cheia
+  const handleAbrirMapa = (mapa: Mapa) => {
+    setMapaSelecionado(mapa);
+    setMostrarMapaModal(true);
   };
 
   // Agrupar missões por personagem
@@ -232,136 +271,273 @@ export default function MissoesPage() {
           </Dialog>
         </div>
 
-        <h1 className="text-3xl font-bold text-amber-400 font-serif mb-6">Missões por Personagem</h1>
+        {/* Navegação entre abas */}
+        <div className="flex gap-4 mb-6">
+          <Button
+            variant={abaAtiva === "missoes" ? "default" : "outline"}
+            onClick={() => setAbaAtiva("missoes")}
+            className={`${
+              abaAtiva === "missoes" 
+                ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
+                : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
+            }`}
+          >
+            <Sword className="w-4 h-4 mr-2" />
+            Missões
+          </Button>
+          <Button
+            variant={abaAtiva === "mapas" ? "default" : "outline"}
+            onClick={() => setAbaAtiva("mapas")}
+            className={`${
+              abaAtiva === "mapas" 
+                ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
+                : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
+            }`}
+          >
+            <Map className="w-4 h-4 mr-2" />
+            Mapas
+          </Button>
+        </div>
+
+        <h1 className="text-3xl font-bold text-amber-400 font-serif mb-6">
+          {abaAtiva === "missoes" ? "Missões por Personagem" : "Mapas de Exploração"}
+        </h1>
 
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"></div>
           </div>
-        ) : Object.keys(missoesPorPersonagem).length === 0 ? (
-          <p className="text-center text-stone-500 py-12">Nenhuma missão cadastrada.</p>
-        ) : (
-          <div className="space-y-10">
-            {Object.entries(missoesPorPersonagem).map(([personagem, lista]) => (
-              <div key={personagem}>
-                <h2 className="text-2xl font-semibold text-amber-300 border-b border-amber-700 mb-4 pb-2">
-                  {personagem}
-                </h2>
+        ) : abaAtiva === "missoes" ? (
+          Object.keys(missoesPorPersonagem).length === 0 ? (
+            <p className="text-center text-stone-500 py-12">Nenhuma missão cadastrada.</p>
+          ) : (
+            <div className="space-y-10">
+              {Object.entries(missoesPorPersonagem).map(([personagem, lista]) => (
+                <div key={personagem}>
+                  <h2 className="text-2xl font-semibold text-amber-300 border-b border-amber-700 mb-4 pb-2">
+                    {personagem}
+                  </h2>
 
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {lista.map((missao) => (
-                    <Card
-                      key={missao.id}
-                      className={`bg-stone-800 border-amber-600/50 hover:border-amber-500 transition-colors ${
-                        missao.disponivel ? "" : "opacity-70"
-                      }`}
-                    >
-                      <CardHeader>
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <CardTitle className="text-amber-300">{missao.titulo}</CardTitle>
-                            <CardDescription className="text-stone-400 mt-2">
-                              {missao.descricao.substring(0, 60)}...
-                            </CardDescription>
-                          </div>
-                          <Badge
-                            variant={missao.disponivel ? "default" : "secondary"}
-                            className={`${
-                              missao.disponivel 
-                                ? "bg-green-600/50 hover:bg-green-600" 
-                                : "bg-red-600/50 hover:bg-red-600"
-                            }`}
-                          >
-                            {missao.disponivel ? "Disponível" : "Concluída"}
-                          </Badge>
-                        </div>
-                      </CardHeader>
-
-                      <CardContent className="space-y-3">
-                        <div className="flex items-center gap-2 text-stone-300">
-                          <Coins className="w-4 h-4 text-amber-400" />
-                          <span>
-                            Recompensa:{" "}
-                            <span className="text-amber-400">{missao.recompensa}</span>
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2 text-stone-300">
-                          <Clock className="w-4 h-4 text-amber-400" />
-                          <span>
-                            Tempo: <span className="text-amber-400">{missao.tempo}</span>
-                          </span>
-                        </div>
-
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full mt-3 flex gap-2 items-center bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600"
-                              disabled={!missao.disponivel}
-                              onClick={() => setMissaoSelecionada(missao)}
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {lista.map((missao) => (
+                      <Card
+                        key={missao.id}
+                        className={`bg-stone-800 border-amber-600/50 hover:border-amber-500 transition-colors ${
+                          missao.disponivel ? "" : "opacity-70"
+                        }`}
+                      >
+                        <CardHeader>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <CardTitle className="text-amber-300">{missao.titulo}</CardTitle>
+                              <CardDescription className="text-stone-400 mt-2">
+                                {missao.descricao.substring(0, 60)}...
+                              </CardDescription>
+                            </div>
+                            <Badge
+                              variant={missao.disponivel ? "default" : "secondary"}
+                              className={`${
+                                missao.disponivel 
+                                  ? "bg-green-600/50 hover:bg-green-600" 
+                                  : "bg-red-600/50 hover:bg-red-600"
+                              }`}
                             >
-                              <Sword className="w-4 h-4" /> 
-                              {missao.disponivel ? "Detalhes" : "Fracassada"}
-                            </Button>
-                          </DialogTrigger>
+                              {missao.disponivel ? "Disponível" : "Concluída"}
+                            </Badge>
+                          </div>
+                        </CardHeader>
 
-                          {missaoSelecionada?.id === missao.id && (
-                            <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md">
-                              <DialogHeader>
-                                <DialogTitle className="text-amber-400 text-xl">
-                                  {missao.titulo}
-                                </DialogTitle>
-                              </DialogHeader>
-                              <div className="space-y-4 px-1 pb-4">
-                                <div>
-                                  <h4 className="text-amber-300 font-semibold mb-2">Descrição:</h4>
-                                  <p className="text-stone-300">{missao.descricao}</p>
-                                </div>
-                                
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div className="flex items-center gap-2">
-                                    <Coins className="w-4 h-4 text-amber-400" />
-                                    <div>
-                                      <p className="text-sm text-stone-400">Recompensa</p>
-                                      <p className="text-amber-400">{missao.recompensa}</p>
+                        <CardContent className="space-y-3">
+                          <div className="flex items-center gap-2 text-stone-300">
+                            <Coins className="w-4 h-4 text-amber-400" />
+                            <span>
+                              Recompensa:{" "}
+                              <span className="text-amber-400">{missao.recompensa}</span>
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 text-stone-300">
+                            <Clock className="w-4 h-4 text-amber-400" />
+                            <span>
+                              Tempo: <span className="text-amber-400">{missao.tempo}</span>
+                            </span>
+                          </div>
+
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className="w-full mt-3 flex gap-2 items-center bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600"
+                                disabled={!missao.disponivel}
+                                onClick={() => setMissaoSelecionada(missao)}
+                              >
+                                <Sword className="w-4 h-4" /> 
+                                {missao.disponivel ? "Detalhes" : "Fracassada"}
+                              </Button>
+                            </DialogTrigger>
+
+                            {missaoSelecionada?.id === missao.id && (
+                              <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md">
+                                <DialogHeader>
+                                  <DialogTitle className="text-amber-400 text-xl">
+                                    {missao.titulo}
+                                  </DialogTitle>
+                                </DialogHeader>
+                                <div className="space-y-4 px-1 pb-4">
+                                  <div>
+                                    <h4 className="text-amber-300 font-semibold mb-2">Descrição:</h4>
+                                    <p className="text-stone-300">{missao.descricao}</p>
+                                  </div>
+                                  
+                                  <div className="grid grid-cols-2 gap-4">
+                                    <div className="flex items-center gap-2">
+                                      <Coins className="w-4 h-4 text-amber-400" />
+                                      <div>
+                                        <p className="text-sm text-stone-400">Recompensa</p>
+                                        <p className="text-amber-400">{missao.recompensa}</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <Clock className="w-4 h-4 text-amber-400" />
+                                      <div>
+                                        <p className="text-sm text-stone-400">Tempo</p>
+                                        <p className="text-amber-400">{missao.tempo}</p>
+                                      </div>
                                     </div>
                                   </div>
-                                  <div className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4 text-amber-400" />
-                                    <div>
-                                      <p className="text-sm text-stone-400">Tempo</p>
-                                      <p className="text-amber-400">{missao.tempo}</p>
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
-                              <DialogFooter className="gap-2">
-                                <Button
-                                  variant="outline"
-                                  onClick={handleRecusarMissao}
-                                  className="border-amber-600 text-amber-400 hover:bg-stone-700"
-                                >
-                                  Recusar
-                                </Button>
-                                <Button
-                                  onClick={() => handleAceitarMissao(missao.id)}
-                                  className="bg-amber-600 hover:bg-amber-500"
-                                  disabled={!missao.disponivel}
-                                >
-                                  Missão Fracassada
-                                </Button>
-                              </DialogFooter>
-                            </DialogContent>
-                          )}
-                        </Dialog>
-                      </CardContent>
-                    </Card>
-                  ))}
+                                <DialogFooter className="gap-2">
+                                  <Button
+                                    variant="outline"
+                                    onClick={handleRecusarMissao}
+                                    className="border-amber-600 text-amber-400 hover:bg-stone-700"
+                                  >
+                                    Recusar
+                                  </Button>
+                                  <Button
+                                    onClick={() => handleAceitarMissao(missao.id)}
+                                    className="bg-amber-600 hover:bg-amber-500"
+                                    disabled={!missao.disponivel}
+                                  >
+                                    Missão Fracassada
+                                  </Button>
+                                </DialogFooter>
+                              </DialogContent>
+                            )}
+                          </Dialog>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )
+        ) : (
+          // ABA DE MAPAS
+          mapas.length === 0 ? (
+            <p className="text-center text-stone-500 py-12">Nenhum mapa disponível.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {mapas.map((mapa) => (
+                <Card
+                  key={mapa.id}
+                  className="bg-stone-800 border-amber-600/50 hover:border-amber-500 transition-all duration-300 hover:scale-105 cursor-pointer group"
+                  onClick={() => handleAbrirMapa(mapa)}
+                >
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-amber-300 text-lg flex items-center justify-between">
+                      {mapa.nome}
+                      <ZoomIn className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </CardTitle>
+                    <CardDescription className="text-stone-400">
+                      {mapa.descricao}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {/* Miniaturas dos mapas */}
+                    <div className="relative aspect-video bg-stone-900 rounded-lg border border-amber-600/30 overflow-hidden">
+                      <img
+                        src={mapa.miniatura}
+                        alt={mapa.nome}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-amber-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                    
+                    {/* Tags do mapa */}
+                    <div className="flex flex-wrap gap-1">
+                      {mapa.tags.map((tag, index) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="text-xs bg-amber-900/20 text-amber-300 border-amber-600/50"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      className="w-full bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 flex gap-2"
+                    >
+                      <ZoomIn className="w-4 h-4" />
+                      Expandir Mapa
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )
         )}
+
+        {/* Modal para mapa em tela cheia */}
+        <Dialog open={mostrarMapaModal} onOpenChange={setMostrarMapaModal}>
+          <DialogContent className="max-w-7xl w-[95vw] h-[95vh] bg-stone-900 border-amber-600 p-0 overflow-hidden">
+            {mapaSelecionado && (
+              <>
+                <DialogHeader className="flex flex-row items-center justify-between p-4 border-b border-amber-600/50">
+                  <DialogTitle className="text-amber-400 text-xl">
+                    {mapaSelecionado.nome}
+                  </DialogTitle>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setMostrarMapaModal(false)}
+                    className="text-stone-400 hover:text-stone-200 hover:bg-stone-800"
+                  >
+                    <X className="w-5 h-5" />
+                  </Button>
+                </DialogHeader>
+                
+                <div className="flex-1 p-4 overflow-auto">
+                  <div className="bg-stone-800 rounded-lg p-4 mb-4">
+                    <p className="text-stone-300">{mapaSelecionado.descricao}</p>
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {mapaSelecionado.tags.map((tag, index) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="bg-amber-900/30 text-amber-300 border-amber-600/50"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="relative bg-stone-900 rounded-lg border-2 border-amber-600/50 overflow-hidden">
+                    <img
+                      src={mapaSelecionado.imagemCompleta}
+                      alt={mapaSelecionado.nome}
+                      className="w-full h-auto max-h-[70vh] object-contain"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </>
   );

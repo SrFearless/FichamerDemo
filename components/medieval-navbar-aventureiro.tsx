@@ -1,18 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, ScrollText, Shield, Home, LogOut, HandHelping, Dog, BookOpenText } from "lucide-react";
+import { Menu, ScrollText, Home, HandHelping, Dog, BookOpenText, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -51,7 +43,7 @@ export function MedievalNavBarAv() {
     { href: `/aventureirotaverna`, label: "Taverna", icon: <Home className="h-5 w-5" /> },
     { href: `/aventureiroficha`, label: "Ficha", icon: <ScrollText className="h-5 w-5" /> },
     { href: `/aventureiromascote`, label: "Mascotes", icon: <Dog className="h-5 w-5" /> },
-    { href: `/aventureiromissoes`, label: "Missões", icon: <BookOpenText className="h-5 w-5" /> },
+    { href: `/aventureiromissoes`, label: "Missões / Mapa", icon: <BookOpenText className="h-5 w-5" /> },
   ];
 
   return (
