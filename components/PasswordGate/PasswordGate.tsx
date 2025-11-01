@@ -21,7 +21,6 @@ export function PasswordGate({ onUnlock }: PasswordGateProps) {
   };
 
   const handlePortfolioClick = () => {
-    // Redireciona para o portfólio - substitua pela URL desejada
     window.location.href = 'https://portfolio-pessoal-mu-virid.vercel.app';
   };
 

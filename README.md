@@ -1,6 +1,6 @@
 # Prazer meu nobre, me chamo Tiago de Freitas Machado!
 
-![Screenshot do Meu Projeto](/public/Logo.png)
+![Screenshot do Meu Projeto](/frontend/public/Logo.png)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](linkedin.com/in/tiagofreitasmachado/)
 [![Portifólio](https://img.shields.io/badge/Portfolio-%23000000.svg?style=for-the-badge&logo=firefox&logoColor=white)](https://portfolio-pessoal-mu-virid.vercel.app)
@@ -38,33 +38,34 @@ Sou um Desenvolvedor Backend apaixonado por Criação de Programas e Jogos. Ador
 </div>
 
 # 📌 Projeto
-
-![Screenshot do Meu Projeto](/public/print.png)
-
-### 🏆 [Portifólio Pessoal](https://portfolio-pessoal-mu-virid.vercel.app)
-Esse é meu currículo online no qual eu coloco minha informações acadêmicas, foto dos certificados, minhas especializações, projetos já feitos e informações para contato,
-um projeto desafiador no qual melhora a facilidade de quem quiser conhecer um pouco mais de você, apresentando projetos em formatos de link para página, vídeos e download.
+### 🏆 Fichamer
+Uma Ficha para Fãs de D&D Edição 5 onde você vai poder aumentar a imersão na sua Mesa.
 
 ### Como Baixar e Contribuir?:
 
-Por ser um Portifólio Online não precisa baixar, somente acessar
+Um app em desenvolvimento para ser colocado na Play Store ou um site Online
 
-Por ser um "Currículo" não vai ser Open Source
+![Screenshot do Meu Projeto](frontend/public/print.png)
 
 ### Tecnologias utilizadas:
 ### Linguagens de Programação
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-ED8B00?style=for-the-badge&logo=MySQL&logoColor=white)
 
 ### Frameworks e Bibliotecas
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
 
 ### Ferramentas e Tecnologias
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+![XAMPP](https://img.shields.io/badge/XAMPP-FB7A24?style=for-the-badge&logo=xampp&logoColor=white)
 ![Aseprite](https://img.shields.io/badge/Aseprite-7D929E?style=for-the-badge&logo=aseprite&logoColor=white)
 
-[Link para o Projeto](https://portfolio-pessoal-mu-virid.vercel.app)
+[Link para o Projeto](https://fichamer-demo.vercel.app)
 
 ## 🤝 Vamos Conversar?
 - 💼 Conecte-se comigo no [LinkedIn](linkedin.com/in/tiagofreitasmachado/)
