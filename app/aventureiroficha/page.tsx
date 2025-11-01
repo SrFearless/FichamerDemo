@@ -323,7 +323,7 @@ export default function DashboardPage() {
       torso: { 
         nome: "Carcaça Ent do Gelo", 
         gif: "/espadas/madeira.gif",
-        propriedades: "CA (19), Furtividade na Neve, Bússulo dos Desejos, Invisibilidade em contato com a Água"
+        propriedades: "CA (19), Furtividade na Neve, Bússula dos Desejos, Invisibilidade em contato com a Água"
       },
       maos: { 
         nome: "Luvas de Arquearia + Broquel Pontudo", 

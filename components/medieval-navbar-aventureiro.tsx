@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, ScrollText, Home, HandHelping, Dog, BookOpenText, Image } from "lucide-react";
+import { Menu, ScrollText, Home, HandHelping, Dog, BookOpenText, Image, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -46,31 +46,70 @@ export function MedievalNavBarAv() {
     { href: `/aventureiromissoes`, label: "Missões / Mapa", icon: <BookOpenText className="h-5 w-5" /> },
   ];
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-amber-800 bg-stone-900/90 backdrop-blur-sm shadow-lg">
-      <div className="container flex h-16 items-center">
-        {/* Menu mobile */}
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden text-amber-400 hover:bg-amber-900/50">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Abrir menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="bg-stone-800 border-r border-amber-800">
-            <nav className="grid gap-6 text-lg font-medium mt-6">
-              <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-amber-400">
-                <span className="font-bold text-xl font-serif">Fichamer</span>
-              </Link>
+    // Link externo - substitua pela URL desejada
+    const externalLink = "https://portfolio-pessoal-mu-virid.vercel.app";
+
+    return (
+      <header className="sticky top-0 z-50 w-full border-b border-amber-800 bg-stone-900/90 backdrop-blur-sm shadow-lg">
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center">
+            {/* Menu mobile */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden text-amber-400 hover:bg-amber-900/50">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Abrir menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="bg-stone-800 border-r border-amber-800">
+                <nav className="grid gap-6 text-lg font-medium mt-6">
+                  <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-amber-400">
+                    <span className="font-bold text-xl font-serif">Fichamer</span>
+                  </Link>
+                  {routes.map(({ href, label, icon }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        "flex items-center gap-3 px-4 py-2 rounded-lg",
+                        pathname === href 
+                          ? "bg-amber-900/50 text-amber-300 border border-amber-600" 
+                          : "text-stone-300 hover:bg-stone-700/50 hover:text-amber-200"
+                      )}
+                    >
+                      {icon}
+                      {label}
+                    </Link>
+                  ))}
+                  {/* Botão de link externo no menu mobile */}
+                  <a
+                    href={externalLink}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-amber-700 hover:bg-amber-600 text-stone-100 transition-colors"
+  >
+                    <ExternalLink className="h-5 w-5" />
+                    Portifólio
+                  </a>
+                </nav>
+              </SheetContent>
+            </Sheet>
+  
+            {/* Logo */}
+            <Link href="/" className="hidden md:flex items-center gap-2">
+              <span className="font-bold text-xl text-amber-400 font-serif">Fichamer</span>
+            </Link>
+  
+            {/* Menu desktop */}
+            <nav className="mx-6 hidden items-center space-x-2 md:flex lg:space-x-4">
               {routes.map(({ href, label, icon }) => (
                 <Link
                   key={href}
                   href={href}
-                  onClick={() => setIsOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 px-4 py-2 rounded-lg",
-                    pathname === href 
-                      ? "bg-amber-900/50 text-amber-300 border border-amber-600" 
+                    "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                    pathname === href
+                      ? "bg-amber-900/30 text-amber-300 border border-amber-600/50"
                       : "text-stone-300 hover:bg-stone-700/50 hover:text-amber-200"
                   )}
                 >
@@ -79,33 +118,19 @@ export function MedievalNavBarAv() {
                 </Link>
               ))}
             </nav>
-          </SheetContent>
-        </Sheet>
-
-        {/* Logo */}
-        <Link href="/" className="hidden md:flex items-center gap-2">
-          <span className="font-bold text-xl text-amber-400 font-serif">Fichamer</span>
-        </Link>
-
-        {/* Menu desktop */}
-        <nav className="mx-6 hidden items-center space-x-2 md:flex lg:space-x-4">
-          {routes.map(({ href, label, icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
-                pathname === href
-                  ? "bg-amber-900/30 text-amber-300 border border-amber-600/50"
-                  : "text-stone-300 hover:bg-stone-700/50 hover:text-amber-200"
-              )}
-            >
-              {icon}
-              {label}
-            </Link>
-          ))}
-        </nav>
-      </div>
-    </header>
-  );
-}
+          </div>
+  
+          {/* Botão de link externo no desktop */}
+          <div className="hidden md:flex">
+            <a
+              href={externalLink}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-amber-700 hover:bg-amber-600 text-stone-100 transition-colors"
+  >
+              <ExternalLink className="h-4 w-4" />
+              Portifólio
+            </a>
+          </div>
+        </div>
+      </header>
+    );
+  }

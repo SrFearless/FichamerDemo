@@ -1507,7 +1507,7 @@ export default function DashboardPage() {
                   <TabsContent value="companheiros" className="mt-4">
                     <textarea 
                       className=" text-red-100 w-full h-48 bg-stone-900/50 border border-stone-700 rounded p-3 focus:outline-none focus:ring-1 focus:ring-amber-500 text-sm"
-                      placeholder="Digite informações sobre seus companheiros..."
+                      placeholder="Desconhecido..."
                       defaultValue={`
                       `.trim()}
                     />
@@ -1516,7 +1516,7 @@ export default function DashboardPage() {
                   <TabsContent value="historia" className="mt-4">
                     <textarea 
                       className="text-red-100 w-full h-48 bg-stone-900/50 border border-stone-700 rounded p-3 focus:outline-none focus:ring-1 focus:ring-amber-500 text-sm"
-                      placeholder="Digite informações sobre as cidades..."
+                      placeholder="Desconhecido..."
                       defaultValue={`
                       `.trim()}
                     />
@@ -1525,7 +1525,7 @@ export default function DashboardPage() {
                   <TabsContent value="servicos" className="mt-4">
                     <textarea 
                       className="text-red-100 w-full h-48 bg-stone-900/50 border border-stone-700 rounded p-3 focus:outline-none focus:ring-1 focus:ring-amber-500 text-sm"
-                      placeholder="Digite informações sobre serviços..."
+                      placeholder="Desconhecido..."
                       defaultValue={`
                       `.trim()}
                     />
@@ -1534,7 +1534,7 @@ export default function DashboardPage() {
                   <TabsContent value="dias" className="mt-4">
                     <textarea 
                       className="text-red-100 w-full h-48 bg-stone-900/50 border border-stone-700 rounded p-3 focus:outline-none focus:ring-1 focus:ring-amber-500 text-sm"
-                      placeholder="Digite informações sobre os dias..."
+                      placeholder="Desconhecido..."
                       defaultValue={`
                       `.trim()}
                     />

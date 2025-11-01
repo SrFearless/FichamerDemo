@@ -190,7 +190,22 @@
 .passwordButton {
   background: linear-gradient(45deg, #8b4513 0%, #a0522d 100%);
   color: #f5e8c8;
-  border: 2px solid #d4af37;
+  border: 1px solid #d4af37;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.passwordButton1 {
+  background: linear-gradient(45deg, hsl(229, 54%, 36%) 0%, #2d38a0 100%);
+  color: #f5e8c8;
+  border: 1px solid #d4af37;
   padding: 12px 25px;
   border-radius: 6px;
   cursor: pointer;
@@ -206,6 +221,12 @@
   transform: translateY(-2px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
   background: linear-gradient(45deg, #9c5d27 0%, #b56a3a 100%);
+}
+
+.passwordButton1:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(45deg, #235792 0%, #3a84b5 100%);
 }
 
 .errorMessage {

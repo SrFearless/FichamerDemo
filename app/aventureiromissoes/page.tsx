@@ -105,7 +105,7 @@ export default function MissoesPage() {
           descricao: "Mapa completo do continente mostrando todas as cidades e reinos",
           miniatura: "/1.jpg",
           imagemCompleta: "/1.jpg",
-          tags: ["Castelo", "Fortaleza", "Stygga"]
+          tags: ["Continente", "Cidades", "Reinos"]
         }
       ];
 
@@ -180,17 +180,54 @@ export default function MissoesPage() {
   return (
     <>
       <MedievalNavBarAv />
-      <div className="container mx-auto px-4 py-6 bg-stone-900 min-h-screen relative">
-        {/* Botão para abrir modal de nova missão */}
-        <div className="absolute top-6 right-6">
+      <div className="container mx-auto px-4 py-6 bg-stone-900 min-h-screen">
+        {/* Cabeçalho com título e botão responsivo */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
+            {/* Navegação entre abas */}
+            <div className="flex gap-2">
+              <Button
+                variant={abaAtiva === "missoes" ? "default" : "outline"}
+                onClick={() => setAbaAtiva("missoes")}
+                className={`${
+                  abaAtiva === "missoes" 
+                    ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
+                    : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
+                } text-sm sm:text-base`}
+              >
+                <Sword className="w-4 h-4 mr-2" />
+                Missões
+              </Button>
+              <Button
+                variant={abaAtiva === "mapas" ? "default" : "outline"}
+                onClick={() => setAbaAtiva("mapas")}
+                className={`${
+                  abaAtiva === "mapas" 
+                    ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
+                    : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
+                } text-sm sm:text-base`}
+              >
+                <Map className="w-4 h-4 mr-2" />
+                Mapas
+              </Button>
+            </div>
+
+            {/* Título */}
+            <h1 className="text-2xl sm:text-3xl font-bold text-amber-400 font-serif">
+              {abaAtiva === "missoes" ? "Missões por Personagem" : "Mapas de Exploração"}
+            </h1>
+          </div>
+
+          {/* Botão para abrir modal de nova missão - Agora posicionado corretamente */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="bg-amber-700 hover:bg-amber-600 text-stone-100 flex gap-2">
-                <PlusCircle className="w-5 h-5" /> Nova Missão
+              <Button className="bg-amber-700 hover:bg-amber-600 text-stone-100 flex gap-2 w-full sm:w-auto">
+                <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5" /> 
+                <span className="text-sm sm:text-base">Nova Missão</span>
               </Button>
             </DialogTrigger>
 
-            <DialogContent className="bg-stone-800 border-amber-600 text-stone-200">
+            <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md sm:max-w-lg">
               <DialogHeader>
                 <DialogTitle className="text-amber-400 text-lg font-serif">
                   Criar Nova Missão
@@ -236,7 +273,7 @@ export default function MissoesPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-stone-300 mb-1">Recompensa</label>
                     <Input
@@ -271,54 +308,25 @@ export default function MissoesPage() {
           </Dialog>
         </div>
 
-        {/* Navegação entre abas */}
-        <div className="flex gap-4 mb-6">
-          <Button
-            variant={abaAtiva === "missoes" ? "default" : "outline"}
-            onClick={() => setAbaAtiva("missoes")}
-            className={`${
-              abaAtiva === "missoes" 
-                ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
-                : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
-            }`}
-          >
-            <Sword className="w-4 h-4 mr-2" />
-            Missões
-          </Button>
-          <Button
-            variant={abaAtiva === "mapas" ? "default" : "outline"}
-            onClick={() => setAbaAtiva("mapas")}
-            className={`${
-              abaAtiva === "mapas" 
-                ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
-                : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
-            }`}
-          >
-            <Map className="w-4 h-4 mr-2" />
-            Mapas
-          </Button>
-        </div>
-
-        <h1 className="text-3xl font-bold text-amber-400 font-serif mb-6">
-          {abaAtiva === "missoes" ? "Missões por Personagem" : "Mapas de Exploração"}
-        </h1>
-
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"></div>
           </div>
         ) : abaAtiva === "missoes" ? (
           Object.keys(missoesPorPersonagem).length === 0 ? (
-            <p className="text-center text-stone-500 py-12">Nenhuma missão cadastrada.</p>
+            <div className="text-center py-12">
+              <p className="text-stone-500 mb-4">Nenhuma missão cadastrada.</p>
+              <p className="text-stone-400 text-sm">Clique em "Nova Missão" para criar sua primeira missão!</p>
+            </div>
           ) : (
-            <div className="space-y-10">
+            <div className="space-y-8">
               {Object.entries(missoesPorPersonagem).map(([personagem, lista]) => (
                 <div key={personagem}>
-                  <h2 className="text-2xl font-semibold text-amber-300 border-b border-amber-700 mb-4 pb-2">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-amber-300 border-b border-amber-700 mb-4 pb-2">
                     {personagem}
                   </h2>
 
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {lista.map((missao) => (
                       <Card
                         key={missao.id}
@@ -326,17 +334,19 @@ export default function MissoesPage() {
                           missao.disponivel ? "" : "opacity-70"
                         }`}
                       >
-                        <CardHeader>
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <CardTitle className="text-amber-300">{missao.titulo}</CardTitle>
-                              <CardDescription className="text-stone-400 mt-2">
-                                {missao.descricao.substring(0, 60)}...
+                        <CardHeader className="pb-3">
+                          <div className="flex justify-between items-start gap-2">
+                            <div className="flex-1 min-w-0">
+                              <CardTitle className="text-amber-300 text-lg sm:text-xl truncate">
+                                {missao.titulo}
+                              </CardTitle>
+                              <CardDescription className="text-stone-400 mt-2 line-clamp-2">
+                                {missao.descricao}
                               </CardDescription>
                             </div>
                             <Badge
                               variant={missao.disponivel ? "default" : "secondary"}
-                              className={`${
+                              className={`flex-shrink-0 ${
                                 missao.disponivel 
                                   ? "bg-green-600/50 hover:bg-green-600" 
                                   : "bg-red-600/50 hover:bg-red-600"
@@ -349,15 +359,15 @@ export default function MissoesPage() {
 
                         <CardContent className="space-y-3">
                           <div className="flex items-center gap-2 text-stone-300">
-                            <Coins className="w-4 h-4 text-amber-400" />
-                            <span>
+                            <Coins className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                            <span className="text-sm sm:text-base truncate">
                               Recompensa:{" "}
                               <span className="text-amber-400">{missao.recompensa}</span>
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-stone-300">
-                            <Clock className="w-4 h-4 text-amber-400" />
-                            <span>
+                            <Clock className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                            <span className="text-sm sm:text-base">
                               Tempo: <span className="text-amber-400">{missao.tempo}</span>
                             </span>
                           </div>
@@ -366,7 +376,7 @@ export default function MissoesPage() {
                             <DialogTrigger asChild>
                               <Button
                                 variant="outline"
-                                className="w-full mt-3 flex gap-2 items-center bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600"
+                                className="w-full mt-3 flex gap-2 items-center bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 text-sm sm:text-base"
                                 disabled={!missao.disponivel}
                                 onClick={() => setMissaoSelecionada(missao)}
                               >
@@ -376,7 +386,7 @@ export default function MissoesPage() {
                             </DialogTrigger>
 
                             {missaoSelecionada?.id === missao.id && (
-                              <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md">
+                              <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md sm:max-w-lg">
                                 <DialogHeader>
                                   <DialogTitle className="text-amber-400 text-xl">
                                     {missao.titulo}
@@ -388,7 +398,7 @@ export default function MissoesPage() {
                                     <p className="text-stone-300">{missao.descricao}</p>
                                   </div>
                                   
-                                  <div className="grid grid-cols-2 gap-4">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="flex items-center gap-2">
                                       <Coins className="w-4 h-4 text-amber-400" />
                                       <div>
@@ -405,17 +415,17 @@ export default function MissoesPage() {
                                     </div>
                                   </div>
                                 </div>
-                                <DialogFooter className="gap-2">
+                                <DialogFooter className="gap-2 flex-col sm:flex-row">
                                   <Button
                                     variant="outline"
                                     onClick={handleRecusarMissao}
-                                    className="border-amber-600 text-amber-400 hover:bg-stone-700"
+                                    className="border-amber-600 text-amber-400 hover:bg-stone-700 w-full sm:w-auto"
                                   >
-                                    Recusar
+                                    Missão Completa
                                   </Button>
                                   <Button
                                     onClick={() => handleAceitarMissao(missao.id)}
-                                    className="bg-amber-600 hover:bg-amber-500"
+                                    className="bg-amber-600 hover:bg-amber-500 w-full sm:w-auto"
                                     disabled={!missao.disponivel}
                                   >
                                     Missão Fracassada
@@ -435,9 +445,11 @@ export default function MissoesPage() {
         ) : (
           // ABA DE MAPAS
           mapas.length === 0 ? (
-            <p className="text-center text-stone-500 py-12">Nenhum mapa disponível.</p>
+            <div className="text-center py-12">
+              <p className="text-stone-500">Nenhum mapa disponível.</p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {mapas.map((mapa) => (
                 <Card
                   key={mapa.id}
@@ -446,10 +458,10 @@ export default function MissoesPage() {
                 >
                   <CardHeader className="pb-3">
                     <CardTitle className="text-amber-300 text-lg flex items-center justify-between">
-                      {mapa.nome}
-                      <ZoomIn className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <span className="truncate">{mapa.nome}</span>
+                      <ZoomIn className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2" />
                     </CardTitle>
-                    <CardDescription className="text-stone-400">
+                    <CardDescription className="text-stone-400 line-clamp-2">
                       {mapa.descricao}
                     </CardDescription>
                   </CardHeader>
@@ -479,7 +491,7 @@ export default function MissoesPage() {
                     
                     <Button
                       variant="outline"
-                      className="w-full bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 flex gap-2"
+                      className="w-full bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 flex gap-2 text-sm sm:text-base"
                     >
                       <ZoomIn className="w-4 h-4" />
                       Expandir Mapa
