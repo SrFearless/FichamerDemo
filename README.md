@@ -1,6 +1,6 @@
 # Prazer meu nobre, me chamo Tiago de Freitas Machado!
 
-![Screenshot do Meu Projeto](/frontend/public/Logo.png)
+![Screenshot do Meu Projeto](/public/Logo.png)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](linkedin.com/in/tiagofreitasmachado/)
 [![Portifólio](https://img.shields.io/badge/Portfolio-%23000000.svg?style=for-the-badge&logo=firefox&logoColor=white)](https://portfolio-pessoal-mu-virid.vercel.app)
@@ -45,7 +45,7 @@ Uma Ficha para Fãs de D&D Edição 5 onde você vai poder aumentar a imersão n
 
 Um app em desenvolvimento para ser colocado na Play Store ou um site Online
 
-![Screenshot do Meu Projeto](frontend/public/print.png)
+![Screenshot do Meu Projeto](/public/print.png)
 
 ### Tecnologias utilizadas:
 ### Linguagens de Programação
