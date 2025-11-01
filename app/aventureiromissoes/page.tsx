@@ -180,376 +180,378 @@ export default function MissoesPage() {
   return (
     <>
       <MedievalNavBarAv />
-      <div className="container mx-auto px-4 py-6 bg-stone-900 min-h-screen">
-        {/* Cabeçalho com título e botão responsivo */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
-            {/* Navegação entre abas */}
-            <div className="flex gap-2">
-              <Button
-                variant={abaAtiva === "missoes" ? "default" : "outline"}
-                onClick={() => setAbaAtiva("missoes")}
-                className={`${
-                  abaAtiva === "missoes" 
-                    ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
-                    : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
-                } text-sm sm:text-base`}
-              >
-                <Sword className="w-4 h-4 mr-2" />
-                Missões
-              </Button>
-              <Button
-                variant={abaAtiva === "mapas" ? "default" : "outline"}
-                onClick={() => setAbaAtiva("mapas")}
-                className={`${
-                  abaAtiva === "mapas" 
-                    ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
-                    : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
-                } text-sm sm:text-base`}
-              >
-                <Map className="w-4 h-4 mr-2" />
-                Mapas
-              </Button>
-            </div>
-
-            {/* Título */}
-            <h1 className="text-2xl sm:text-3xl font-bold text-amber-400 font-serif">
-              {abaAtiva === "missoes" ? "Missões por Personagem" : "Mapas de Exploração"}
-            </h1>
-          </div>
-
-          {/* Botão para abrir modal de nova missão - Agora posicionado corretamente */}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="bg-amber-700 hover:bg-amber-600 text-stone-100 flex gap-2 w-full sm:w-auto">
-                <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5" /> 
-                <span className="text-sm sm:text-base">Nova Missão</span>
-              </Button>
-            </DialogTrigger>
-
-            <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md sm:max-w-lg">
-              <DialogHeader>
-                <DialogTitle className="text-amber-400 text-lg font-serif">
-                  Criar Nova Missão
-                </DialogTitle>
-              </DialogHeader>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-stone-300 mb-1">Personagem</label>
-                  <Select
-                    onValueChange={(v) => setNovaMissao({ ...novaMissao, personagem: v })}
-                    value={novaMissao.personagem}
-                  >
-                    <SelectTrigger className="bg-stone-900 border-amber-600 text-stone-200">
-                      <SelectValue placeholder="Selecione o personagem" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-stone-900 border-amber-600 text-stone-200">
-                      {personagens.map((p) => (
-                        <SelectItem key={p} value={p}>{p}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="block text-stone-300 mb-1">Título *</label>
-                  <Input
-                    value={novaMissao.titulo}
-                    onChange={(e) => setNovaMissao({ ...novaMissao, titulo: e.target.value })}
-                    className="bg-stone-900 border-amber-600 text-stone-200"
-                    placeholder="Nome da missão"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-stone-300 mb-1">Descrição *</label>
-                  <Textarea
-                    value={novaMissao.descricao}
-                    onChange={(e) => setNovaMissao({ ...novaMissao, descricao: e.target.value })}
-                    className="bg-stone-900 border-amber-600 text-stone-200"
-                    placeholder="Detalhes da missão..."
-                    rows={4}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-stone-300 mb-1">Recompensa</label>
-                    <Input
-                      value={novaMissao.recompensa}
-                      onChange={(e) => setNovaMissao({ ...novaMissao, recompensa: e.target.value })}
-                      className="bg-stone-900 border-amber-600 text-stone-200"
-                      placeholder="Ex: 500 peças de ouro"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-stone-300 mb-1">Tempo Estimado</label>
-                    <Input
-                      value={novaMissao.tempo}
-                      onChange={(e) => setNovaMissao({ ...novaMissao, tempo: e.target.value })}
-                      className="bg-stone-900 border-amber-600 text-stone-200"
-                      placeholder="Ex: 2-3 dias"
-                    />
-                  </div>
-                </div>
+      <div className="min-h-screen bg-stone-900 overflow-x-hidden"> {/* Adicionei overflow-x-hidden aqui */}
+        <div className="container mx-auto px-4 py-6">
+          {/* Cabeçalho com título e botão responsivo */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
+              {/* Navegação entre abas */}
+              <div className="flex gap-2">
+                <Button
+                  variant={abaAtiva === "missoes" ? "default" : "outline"}
+                  onClick={() => setAbaAtiva("missoes")}
+                  className={`${
+                    abaAtiva === "missoes" 
+                      ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
+                      : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
+                  } text-sm sm:text-base`}
+                >
+                  <Sword className="w-4 h-4 mr-2" />
+                  Missões
+                </Button>
+                <Button
+                  variant={abaAtiva === "mapas" ? "default" : "outline"}
+                  onClick={() => setAbaAtiva("mapas")}
+                  className={`${
+                    abaAtiva === "mapas" 
+                      ? "bg-amber-700 hover:bg-amber-600 text-stone-100" 
+                      : "bg-stone-800 border-amber-600 text-amber-400 hover:bg-stone-700"
+                  } text-sm sm:text-base`}
+                >
+                  <Map className="w-4 h-4 mr-2" />
+                  Mapas
+                </Button>
               </div>
 
-              <DialogFooter>
-                <Button
-                  onClick={handleAdicionarMissao}
-                  className="bg-amber-700 hover:bg-amber-600 text-stone-100 w-full mt-3"
-                >
-                  <ScrollText className="w-4 h-4 mr-2" />
-                  Registrar Missão
+              {/* Título */}
+              <h1 className="text-2xl sm:text-3xl font-bold text-amber-400 font-serif">
+                {abaAtiva === "missoes" ? "Missões por Personagem" : "Mapas de Exploração"}
+              </h1>
+            </div>
+
+            {/* Botão para abrir modal de nova missão */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-amber-700 hover:bg-amber-600 text-stone-100 flex gap-2 w-full sm:w-auto">
+                  <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5" /> 
+                  <span className="text-sm sm:text-base">Nova Missão</span>
                 </Button>
-              </DialogFooter>
+              </DialogTrigger>
+
+              <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md sm:max-w-lg mx-4"> {/* Adicionei mx-4 */}
+                <DialogHeader>
+                  <DialogTitle className="text-amber-400 text-lg font-serif">
+                    Criar Nova Missão
+                  </DialogTitle>
+                </DialogHeader>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-stone-300 mb-1">Personagem</label>
+                    <Select
+                      onValueChange={(v) => setNovaMissao({ ...novaMissao, personagem: v })}
+                      value={novaMissao.personagem}
+                    >
+                      <SelectTrigger className="bg-stone-900 border-amber-600 text-stone-200">
+                        <SelectValue placeholder="Selecione o personagem" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-stone-900 border-amber-600 text-stone-200">
+                        {personagens.map((p) => (
+                          <SelectItem key={p} value={p}>{p}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-300 mb-1">Título *</label>
+                    <Input
+                      value={novaMissao.titulo}
+                      onChange={(e) => setNovaMissao({ ...novaMissao, titulo: e.target.value })}
+                      className="bg-stone-900 border-amber-600 text-stone-200"
+                      placeholder="Nome da missão"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-stone-300 mb-1">Descrição *</label>
+                    <Textarea
+                      value={novaMissao.descricao}
+                      onChange={(e) => setNovaMissao({ ...novaMissao, descricao: e.target.value })}
+                      className="bg-stone-900 border-amber-600 text-stone-200"
+                      placeholder="Detalhes da missão..."
+                      rows={4}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-stone-300 mb-1">Recompensa</label>
+                      <Input
+                        value={novaMissao.recompensa}
+                        onChange={(e) => setNovaMissao({ ...novaMissao, recompensa: e.target.value })}
+                        className="bg-stone-900 border-amber-600 text-stone-200"
+                        placeholder="Ex: 500 peças de ouro"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-stone-300 mb-1">Tempo Estimado</label>
+                      <Input
+                        value={novaMissao.tempo}
+                        onChange={(e) => setNovaMissao({ ...novaMissao, tempo: e.target.value })}
+                        className="bg-stone-900 border-amber-600 text-stone-200"
+                        placeholder="Ex: 2-3 dias"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <DialogFooter>
+                  <Button
+                    onClick={handleAdicionarMissao}
+                    className="bg-amber-700 hover:bg-amber-600 text-stone-100 w-full mt-3"
+                  >
+                    <ScrollText className="w-4 h-4 mr-2" />
+                    Registrar Missão
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"></div>
+            </div>
+          ) : abaAtiva === "missoes" ? (
+            Object.keys(missoesPorPersonagem).length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-stone-500 mb-4">Nenhuma missão cadastrada.</p>
+                <p className="text-stone-400 text-sm">Clique em "Nova Missão" para criar sua primeira missão!</p>
+              </div>
+            ) : (
+              <div className="space-y-8 w-full overflow-hidden"> {/* Adicionei w-full e overflow-hidden */}
+                {Object.entries(missoesPorPersonagem).map(([personagem, lista]) => (
+                  <div key={personagem} className="w-full overflow-hidden"> {/* Adicionei overflow-hidden aqui também */}
+                    <h2 className="text-xl sm:text-2xl font-semibold text-amber-300 border-b border-amber-700 mb-4 pb-2">
+                      {personagem}
+                    </h2>
+
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full"> {/* Garantindo grid de 1 coluna em mobile */}
+                      {lista.map((missao) => (
+                        <Card
+                          key={missao.id}
+                          className={`bg-stone-800 border-amber-600/50 hover:border-amber-500 transition-colors w-full ${
+                            missao.disponivel ? "" : "opacity-70"
+                          }`}
+                        >
+                          <CardHeader className="pb-3">
+                            <div className="flex justify-between items-start gap-2 w-full">
+                              <div className="flex-1 min-w-0">
+                                <CardTitle className="text-amber-300 text-lg sm:text-xl truncate">
+                                  {missao.titulo}
+                                </CardTitle>
+                                <CardDescription className="text-stone-400 mt-2 line-clamp-3"> {/* Aumentei para 3 linhas */}
+                                  {missao.descricao}
+                                </CardDescription>
+                              </div>
+                              <Badge
+                                variant={missao.disponivel ? "default" : "secondary"}
+                                className={`flex-shrink-0 ${
+                                  missao.disponivel 
+                                    ? "bg-green-600/50 hover:bg-green-600" 
+                                    : "bg-red-600/50 hover:bg-red-600"
+                                }`}
+                              >
+                                {missao.disponivel ? "Disponível" : "Concluída"}
+                              </Badge>
+                            </div>
+                          </CardHeader>
+
+                          <CardContent className="space-y-3">
+                            <div className="flex items-center gap-2 text-stone-300">
+                              <Coins className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                              <span className="text-sm sm:text-base break-words"> {/* Mudei para break-words */}
+                                Recompensa:{" "}
+                                <span className="text-amber-400">{missao.recompensa}</span>
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2 text-stone-300">
+                              <Clock className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                              <span className="text-sm sm:text-base break-words"> {/* Mudei para break-words */}
+                                Tempo: <span className="text-amber-400">{missao.tempo}</span>
+                              </span>
+                            </div>
+
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  className="w-full mt-3 flex gap-2 items-center bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 text-sm sm:text-base"
+                                  disabled={!missao.disponivel}
+                                  onClick={() => setMissaoSelecionada(missao)}
+                                >
+                                  <Sword className="w-4 h-4" /> 
+                                  {missao.disponivel ? "Detalhes" : "Fracassada"}
+                                </Button>
+                              </DialogTrigger>
+
+                              {missaoSelecionada?.id === missao.id && (
+                                <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-[95vw] sm:max-w-lg mx-auto"> {/* Adicionei max-w-[95vw] e mx-auto */}
+                                  <DialogHeader>
+                                    <DialogTitle className="text-amber-400 text-xl">
+                                      {missao.titulo}
+                                    </DialogTitle>
+                                  </DialogHeader>
+                                  <div className="space-y-4 px-1 pb-4">
+                                    <div>
+                                      <h4 className="text-amber-300 font-semibold mb-2">Descrição:</h4>
+                                      <p className="text-stone-300 break-words">{missao.descricao}</p> {/* Adicionei break-words */}
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                      <div className="flex items-center gap-2">
+                                        <Coins className="w-4 h-4 text-amber-400" />
+                                        <div>
+                                          <p className="text-sm text-stone-400">Recompensa</p>
+                                          <p className="text-amber-400 break-words">{missao.recompensa}</p> {/* Adicionei break-words */}
+                                        </div>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Clock className="w-4 h-4 text-amber-400" />
+                                        <div>
+                                          <p className="text-sm text-stone-400">Tempo</p>
+                                          <p className="text-amber-400 break-words">{missao.tempo}</p> {/* Adicionei break-words */}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <DialogFooter className="gap-2 flex-col sm:flex-row">
+                                    <Button
+                                      variant="outline"
+                                      onClick={handleRecusarMissao}
+                                      className="border-amber-600 text-amber-400 hover:bg-stone-700 w-full sm:w-auto"
+                                    >
+                                      Missão Completa
+                                    </Button>
+                                    <Button
+                                      onClick={() => handleAceitarMissao(missao.id)}
+                                      className="bg-amber-600 hover:bg-amber-500 w-full sm:w-auto"
+                                      disabled={!missao.disponivel}
+                                    >
+                                      Missão Fracassada
+                                    </Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              )}
+                            </Dialog>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
+          ) : (
+            // ABA DE MAPAS
+            mapas.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-stone-500">Nenhum mapa disponível.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 w-full overflow-hidden"> {/* Adicionei overflow-hidden */}
+                {mapas.map((mapa) => (
+                  <Card
+                    key={mapa.id}
+                    className="bg-stone-800 border-amber-600/50 hover:border-amber-500 transition-all duration-300 hover:scale-105 cursor-pointer group w-full"
+                    onClick={() => handleAbrirMapa(mapa)}
+                  >
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-amber-300 text-lg flex items-center justify-between">
+                        <span className="truncate">{mapa.nome}</span>
+                        <ZoomIn className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2" />
+                      </CardTitle>
+                      <CardDescription className="text-stone-400 line-clamp-2">
+                        {mapa.descricao}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {/* Miniaturas dos mapas */}
+                      <div className="relative aspect-video bg-stone-900 rounded-lg border border-amber-600/30 overflow-hidden">
+                        <img
+                          src={mapa.miniatura}
+                          alt={mapa.nome}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-amber-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      
+                      {/* Tags do mapa */}
+                      <div className="flex flex-wrap gap-1">
+                        {mapa.tags.map((tag, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="text-xs bg-amber-900/20 text-amber-300 border-amber-600/50"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                      
+                      <Button
+                        variant="outline"
+                        className="w-full bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 flex gap-2 text-sm sm:text-base"
+                      >
+                        <ZoomIn className="w-4 h-4" />
+                        Expandir Mapa
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )
+          )}
+
+          {/* Modal para mapa em tela cheia */}
+          <Dialog open={mostrarMapaModal} onOpenChange={setMostrarMapaModal}>
+            <DialogContent className="max-w-7xl w-[95vw] h-[95vh] bg-stone-900 border-amber-600 p-0 overflow-hidden">
+              {mapaSelecionado && (
+                <>
+                  <DialogHeader className="flex flex-row items-center justify-between p-4 border-b border-amber-600/50">
+                    <DialogTitle className="text-amber-400 text-xl">
+                      {mapaSelecionado.nome}
+                    </DialogTitle>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setMostrarMapaModal(false)}
+                      className="text-stone-400 hover:text-stone-200 hover:bg-stone-800"
+                    >
+                      <X className="w-5 h-5" />
+                    </Button>
+                  </DialogHeader>
+                  
+                  <div className="flex-1 p-4 overflow-auto">
+                    <div className="bg-stone-800 rounded-lg p-4 mb-4">
+                      <p className="text-stone-300">{mapaSelecionado.descricao}</p>
+                      <div className="flex flex-wrap gap-2 mt-3">
+                        {mapaSelecionado.tags.map((tag, index) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="bg-amber-900/30 text-amber-300 border-amber-600/50"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="relative bg-stone-900 rounded-lg border-2 border-amber-600/50 overflow-hidden">
+                      <img
+                        src={mapaSelecionado.imagemCompleta}
+                        alt={mapaSelecionado.nome}
+                        className="w-full h-auto max-h-[70vh] object-contain"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </DialogContent>
           </Dialog>
         </div>
-
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"></div>
-          </div>
-        ) : abaAtiva === "missoes" ? (
-          Object.keys(missoesPorPersonagem).length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-stone-500 mb-4">Nenhuma missão cadastrada.</p>
-              <p className="text-stone-400 text-sm">Clique em "Nova Missão" para criar sua primeira missão!</p>
-            </div>
-          ) : (
-            <div className="space-y-8">
-              {Object.entries(missoesPorPersonagem).map(([personagem, lista]) => (
-                <div key={personagem}>
-                  <h2 className="text-xl sm:text-2xl font-semibold text-amber-300 border-b border-amber-700 mb-4 pb-2">
-                    {personagem}
-                  </h2>
-
-                  <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {lista.map((missao) => (
-                      <Card
-                        key={missao.id}
-                        className={`bg-stone-800 border-amber-600/50 hover:border-amber-500 transition-colors ${
-                          missao.disponivel ? "" : "opacity-70"
-                        }`}
-                      >
-                        <CardHeader className="pb-3">
-                          <div className="flex justify-between items-start gap-2">
-                            <div className="flex-1 min-w-0">
-                              <CardTitle className="text-amber-300 text-lg sm:text-xl truncate">
-                                {missao.titulo}
-                              </CardTitle>
-                              <CardDescription className="text-stone-400 mt-2 line-clamp-2">
-                                {missao.descricao}
-                              </CardDescription>
-                            </div>
-                            <Badge
-                              variant={missao.disponivel ? "default" : "secondary"}
-                              className={`flex-shrink-0 ${
-                                missao.disponivel 
-                                  ? "bg-green-600/50 hover:bg-green-600" 
-                                  : "bg-red-600/50 hover:bg-red-600"
-                              }`}
-                            >
-                              {missao.disponivel ? "Disponível" : "Concluída"}
-                            </Badge>
-                          </div>
-                        </CardHeader>
-
-                        <CardContent className="space-y-3">
-                          <div className="flex items-center gap-2 text-stone-300">
-                            <Coins className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                            <span className="text-sm sm:text-base truncate">
-                              Recompensa:{" "}
-                              <span className="text-amber-400">{missao.recompensa}</span>
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2 text-stone-300">
-                            <Clock className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                            <span className="text-sm sm:text-base">
-                              Tempo: <span className="text-amber-400">{missao.tempo}</span>
-                            </span>
-                          </div>
-
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="w-full mt-3 flex gap-2 items-center bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 text-sm sm:text-base"
-                                disabled={!missao.disponivel}
-                                onClick={() => setMissaoSelecionada(missao)}
-                              >
-                                <Sword className="w-4 h-4" /> 
-                                {missao.disponivel ? "Detalhes" : "Fracassada"}
-                              </Button>
-                            </DialogTrigger>
-
-                            {missaoSelecionada?.id === missao.id && (
-                              <DialogContent className="bg-stone-800 border-amber-600 text-stone-200 max-w-md sm:max-w-lg">
-                                <DialogHeader>
-                                  <DialogTitle className="text-amber-400 text-xl">
-                                    {missao.titulo}
-                                  </DialogTitle>
-                                </DialogHeader>
-                                <div className="space-y-4 px-1 pb-4">
-                                  <div>
-                                    <h4 className="text-amber-300 font-semibold mb-2">Descrição:</h4>
-                                    <p className="text-stone-300">{missao.descricao}</p>
-                                  </div>
-                                  
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div className="flex items-center gap-2">
-                                      <Coins className="w-4 h-4 text-amber-400" />
-                                      <div>
-                                        <p className="text-sm text-stone-400">Recompensa</p>
-                                        <p className="text-amber-400">{missao.recompensa}</p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <Clock className="w-4 h-4 text-amber-400" />
-                                      <div>
-                                        <p className="text-sm text-stone-400">Tempo</p>
-                                        <p className="text-amber-400">{missao.tempo}</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <DialogFooter className="gap-2 flex-col sm:flex-row">
-                                  <Button
-                                    variant="outline"
-                                    onClick={handleRecusarMissao}
-                                    className="border-amber-600 text-amber-400 hover:bg-stone-700 w-full sm:w-auto"
-                                  >
-                                    Missão Completa
-                                  </Button>
-                                  <Button
-                                    onClick={() => handleAceitarMissao(missao.id)}
-                                    className="bg-amber-600 hover:bg-amber-500 w-full sm:w-auto"
-                                    disabled={!missao.disponivel}
-                                  >
-                                    Missão Fracassada
-                                  </Button>
-                                </DialogFooter>
-                              </DialogContent>
-                            )}
-                          </Dialog>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )
-        ) : (
-          // ABA DE MAPAS
-          mapas.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-stone-500">Nenhum mapa disponível.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-              {mapas.map((mapa) => (
-                <Card
-                  key={mapa.id}
-                  className="bg-stone-800 border-amber-600/50 hover:border-amber-500 transition-all duration-300 hover:scale-105 cursor-pointer group"
-                  onClick={() => handleAbrirMapa(mapa)}
-                >
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-amber-300 text-lg flex items-center justify-between">
-                      <span className="truncate">{mapa.nome}</span>
-                      <ZoomIn className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2" />
-                    </CardTitle>
-                    <CardDescription className="text-stone-400 line-clamp-2">
-                      {mapa.descricao}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    {/* Miniaturas dos mapas */}
-                    <div className="relative aspect-video bg-stone-900 rounded-lg border border-amber-600/30 overflow-hidden">
-                      <img
-                        src={mapa.miniatura}
-                        alt={mapa.nome}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-amber-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                    
-                    {/* Tags do mapa */}
-                    <div className="flex flex-wrap gap-1">
-                      {mapa.tags.map((tag, index) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="text-xs bg-amber-900/20 text-amber-300 border-amber-600/50"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                    
-                    <Button
-                      variant="outline"
-                      className="w-full bg-stone-700 hover:bg-stone-600 text-amber-400 border-amber-600 flex gap-2 text-sm sm:text-base"
-                    >
-                      <ZoomIn className="w-4 h-4" />
-                      Expandir Mapa
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )
-        )}
-
-        {/* Modal para mapa em tela cheia */}
-        <Dialog open={mostrarMapaModal} onOpenChange={setMostrarMapaModal}>
-          <DialogContent className="max-w-7xl w-[95vw] h-[95vh] bg-stone-900 border-amber-600 p-0 overflow-hidden">
-            {mapaSelecionado && (
-              <>
-                <DialogHeader className="flex flex-row items-center justify-between p-4 border-b border-amber-600/50">
-                  <DialogTitle className="text-amber-400 text-xl">
-                    {mapaSelecionado.nome}
-                  </DialogTitle>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setMostrarMapaModal(false)}
-                    className="text-stone-400 hover:text-stone-200 hover:bg-stone-800"
-                  >
-                    <X className="w-5 h-5" />
-                  </Button>
-                </DialogHeader>
-                
-                <div className="flex-1 p-4 overflow-auto">
-                  <div className="bg-stone-800 rounded-lg p-4 mb-4">
-                    <p className="text-stone-300">{mapaSelecionado.descricao}</p>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      {mapaSelecionado.tags.map((tag, index) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="bg-amber-900/30 text-amber-300 border-amber-600/50"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="relative bg-stone-900 rounded-lg border-2 border-amber-600/50 overflow-hidden">
-                    <img
-                      src={mapaSelecionado.imagemCompleta}
-                      alt={mapaSelecionado.nome}
-                      className="w-full h-auto max-h-[70vh] object-contain"
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-          </DialogContent>
-        </Dialog>
       </div>
     </>
   );
